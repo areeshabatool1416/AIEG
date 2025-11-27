@@ -1,1 +1,48 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AIEG – Predict</title>
+  <style>
+    body { font-family: Arial; background: #f0f4f8; padding: 40px; }
+    .box { background: white; padding: 30px; max-width: 500px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+    button { margin-top: 20px; padding: 10px 20px; background: #0077cc; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .output { margin-top: 30px; background: #e6f7ff; padding: 20px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🌍 AIEG – Predict Environment</h2>
+    <form id="predictForm">
+      <label>Temperature (°C):</label>
+      <input type="number" name="temp" required />
+      <label>Humidity (%):</label>
+      <input type="number" name="humidity" required />
+      <label>Wind Speed (km/h):</label>
+      <input type="number" name="wind" required />
+      <label>Pressure (hPa):</label>
+      <input type="number" name="pressure" required />
+      <button type="submit">Predict</button>
+    </form>
+    <div id="result" class="output"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('predictForm');
+    const resultBox = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const params = new URLSearchParams(formData).toString();
+
+      const response = await fetch("https://radishlike-condyloid-monet.ngrok-free.dev/predict?" + params);
+      const data = await response.json();
+
+      resultBox.innerHTML = `<h3>🌡️ Predicted Temperature: ${data.predicted_temp} °C</h3>`;
+    });
+  </script>
+</body>
+</html>
